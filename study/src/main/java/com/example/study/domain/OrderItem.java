@@ -34,6 +34,7 @@ public class OrderItem {
     public OrderItem(int totalPrice, int quantity) {
         this.totalPrice = totalPrice;
         this.quantity = quantity;
+        this.item = item;
     }
 
     public void setOrder(Order order) {

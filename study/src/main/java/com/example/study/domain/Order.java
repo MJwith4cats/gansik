@@ -14,13 +14,17 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @Table(name="orders")
+@Builder
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="order_id",updatable = false)
+    @Column(name="order_id", updatable = false)
     private long id;
-    private String orderItems;
+
+    // 주문 항목을 List로 변경
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime time;
 
@@ -28,26 +32,15 @@ public class Order {
     @JoinColumn(name="member_id")
     private Member member;
 
-//    @LastModifiedDate
-//    private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "order")
-    private List<OrderItem> orders = new ArrayList<>();
-
-    @Builder
-    public Order(String orderItems, List<OrderItem> orders) {
-        this.orderItems = orderItems;
-        this.orders = orders;
+    public void addOrderItem(OrderItem... orderItems) {
+        for (OrderItem orderItem : orderItems) {
+            this.orderItems.add(orderItem);
+            orderItem.setOrder(this);
+        }
     }
 
-    public void addOrderItem(OrderItem item) {
-        orders.add(item);
-        item.setOrder(this); // 양방향 관계 설정
+    public void removeOrderItem(OrderItem orderItem){
+        orderItems.remove(orderItem);
+        orderItem.setOrder(null);
     }
-
-    public void setOrder(List<OrderItem> orders) {
-        this.orders = orders;
-    }
-
-
 }

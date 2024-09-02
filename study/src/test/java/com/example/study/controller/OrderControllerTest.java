@@ -1,7 +1,8 @@
 package com.example.study.controller;
 
 import com.example.study.domain.OrderItem;
-import com.example.study.dto.AddOrderRequest;
+import com.example.study.dto.OrderItemRequest;
+import com.example.study.dto.OrderRequest;
 import com.example.study.repository.OrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -53,11 +54,11 @@ class OrderControllerTest {
     public void addOrder() throws Exception{
         //given
         final String url = "/api/orders";
-        List<OrderItem> orders = List.of(
+        List<OrderItemRequest> orders = List.of(
                 new OrderItem(3000, 2), // 예시로 OrderItem 생성
                 new OrderItem(5000, 3)
         );
-        final AddOrderRequest orderRequest = new AddOrderRequest(orders);
+        final OrderRequest orderRequest = new OrderRequest(orders);
 
         //객체 JSON으로 직렬화
 //        final String requestBody = objectMapper.writeValueAsString()

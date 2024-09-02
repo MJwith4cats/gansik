@@ -1,7 +1,7 @@
 package com.example.study.controller;
 
 import com.example.study.domain.Order;
-import com.example.study.dto.AddOrderRequest;
+import com.example.study.dto.OrderRequest;
 import com.example.study.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> addOrder(@RequestBody AddOrderRequest request){
-        Order saveOrder = orderService.save(request);
+    public ResponseEntity<?> addOrder(@RequestBody OrderRequest request){
+        Order saveOrder = orderService.createOrder(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(saveOrder);
     }
